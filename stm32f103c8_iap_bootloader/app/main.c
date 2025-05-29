@@ -2,9 +2,9 @@
 
 /* 硬件设备定义 */
 UARTDev_t debug = {.config = {USART1, 921600, GPIOA, GPIO_Pin_9, GPIOA, GPIO_Pin_10}};
-EEPROMDev_t at24c02 = {.config = {GPIOB, GPIO_Pin_8, GPIOB, GPIO_Pin_9}};
+EEPROMDev_t at24c02 = {.config = {GPIOB, GPIO_Pin_6, GPIOB, GPIO_Pin_7}};
 W25QXDev_t w25q128 = {.config = {SPI2, GPIOB, GPIO_Pin_13, GPIOB, GPIO_Pin_14, GPIOB, GPIO_Pin_15, GPIOA, GPIO_Pin_15}};
-FMCDev_t fmc;
+FlashDev_t flash;
 
 int main(void)
 {
@@ -21,7 +21,7 @@ int main(void)
 	uart_init(&debug);
     eeprom_init(&at24c02);
     w25qx_init(&w25q128);
-	fmc_init(&fmc);
+	flash_init(&flash);
 
 	debug.printf("\r\n");
 
@@ -56,9 +56,9 @@ int main(void)
 		}
 
 		/* Flash A区程序更新 */
-		if (g_bootloader_status & FLASH_A_UPDATE_FLAG)
+		if (g_bootloader_status & APP_UPDATE_FLAG)
 		{
-			handle_flash_a_update();
+			handle_app_update();
 		}
 	}
 }

@@ -43,10 +43,10 @@
             "path": "../driver/eeprom.h"
           },
           {
-            "path": "../driver/fmc.c"
+            "path": "../driver/flash.c"
           },
           {
-            "path": "../driver/fmc.h"
+            "path": "../driver/flash.h"
           },
           {
             "path": "../driver/i2c.c"

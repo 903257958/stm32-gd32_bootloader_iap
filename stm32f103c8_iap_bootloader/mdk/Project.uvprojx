@@ -470,14 +470,14 @@
               <FilePath>..\driver\w25qx.c</FilePath>
             </File>
             <File>
-              <FileName>fmc.h</FileName>
+              <FileName>flash.h</FileName>
               <FileType>5</FileType>
-              <FilePath>..\driver\fmc.h</FilePath>
+              <FilePath>..\driver\flash.h</FilePath>
             </File>
             <File>
-              <FileName>fmc.c</FileName>
+              <FileName>flash.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\driver\fmc.c</FilePath>
+              <FilePath>..\driver\flash.c</FilePath>
             </File>
           </Files>
         </Group>
