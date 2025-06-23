@@ -1,9 +1,9 @@
 #include "bootloader.h"
 
-p_load_app g_load_app;					// 声明全局函数指针
-IAPInfo_t iap_info;						// IAP信息结构体，存储在EEPROM中
-APPUpdateControlBlock_t app_update_cb;	// APP更新控制块结构体
-uint32_t g_bootloader_status;			// 状态变量
+p_load_app g_load_app;          // 声明全局函数指针
+iap_info_t iap_info;            // IAP信息结构体，存储在EEPROM中
+app_update_cb_t app_update_cb;  // APP更新控制块结构体
+uint32_t g_bootloader_status;   // 状态变量
 
 /* 函数声明 */
 static int8_t __enter_command_line(uint16_t timeout);
@@ -59,7 +59,7 @@ static int8_t __enter_command_line(uint16_t timeout)
 
 	while (timeout--)
 	{
-		if (uart1_rx_buf[0] == 'w')
+		if (uart1.config.rx_buf[0] == 'w')
 		{
 			return 0;	// 进入命令行
 		}
@@ -524,7 +524,7 @@ static void __bootloader_clear(void)
 	DMA_DeInit(DMA1_Channel5);	
 	GPIO_DeInit(GPIOA);
 	GPIO_DeInit(GPIOB);
-	SPI_I2S_DeInit(SPI2);
+	SPI_I2S_DeInit(w25q128.config.spix);
 
 	#elif defined(STM32F40_41xxx) || defined(STM32F429_439xx)
 
@@ -533,7 +533,7 @@ static void __bootloader_clear(void)
 	GPIO_DeInit(GPIOA);
 	GPIO_DeInit(GPIOB);
 	GPIO_DeInit(GPIOC);
-	SPI_I2S_DeInit(SPI1);
+	SPI_I2S_DeInit(w25q128.config.spix);
     
     #elif  defined (GD32F10X_MD) || defined (GD32F10X_HD)
 

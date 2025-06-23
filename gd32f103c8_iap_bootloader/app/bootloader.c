@@ -1,8 +1,8 @@
 #include "bootloader.h"
 
 p_load_flash_a g_load_flash_a;					// 声明全局函数指针
-IAPInfo_t iap_info;								// IAP信息结构体，存储在EEPROM中
-FlashAUpdateControlBlock_t flash_a_update_cb;	// Flash A区更新控制块结构体
+iap_info_t iap_info;								// IAP信息结构体，存储在EEPROM中
+app_update_cb_t flash_a_update_cb;	// Flash A区更新控制块结构体
 uint32_t g_bootloader_status;					// 状态变量
 
 /* 函数声明 */
@@ -93,7 +93,7 @@ void bootloader_branch(void)
 	/* 不进入命令行 */
 	if (__enter_command_line(2000) == -1)
 	{
-		BOOT_DEBUG("\r\nJump to flash A!\r\n");
+		BOOT_DEBUG("\r\nJump to APP!\r\n");
 		__load_flash_a(FLASH_A_START_ADDR);	// 跳转到Flash的A区主程序
 	}
 
@@ -164,7 +164,7 @@ void handle_flash_a_update(void)
 	if (iap_info.program_byte_num[flash_a_update_cb.eflash_block_index] % 4 == 0)
 	{
 		/* 擦除内部Flash A区 */
-		fmc.page_erase(&fmc, FLASH_A_START_PAGE, FLASH_A_PAGE_NUM);
+		flash.page_erase(&flash, FLASH_A_START_PAGE, FLASH_A_PAGE_NUM);
 
 		/* 下载长度为4字节对齐，先写完整的页 */
 		for (i = 0; i < iap_info.program_byte_num[flash_a_update_cb.eflash_block_index] / FLASH_PAGE_SIZE; i++)
@@ -176,26 +176,26 @@ void handle_flash_a_update(void)
 							FLASH_PAGE_SIZE);
 
 			/* 将本次数据写入内部Flash */
-			fmc.write(	&fmc, 
-							FLASH_A_START_ADDR + i * FLASH_PAGE_SIZE, 
-							(uint32_t *)flash_a_update_cb.update_buf, 
-							FLASH_PAGE_SIZE);
+			flash.write(&flash, 
+						FLASH_A_START_ADDR + i * FLASH_PAGE_SIZE, 
+						(uint32_t *)flash_a_update_cb.update_buf, 
+						FLASH_PAGE_SIZE);
 		}
 
 		/* 处理剩余不足一页的字节 */
 		if (iap_info.program_byte_num[flash_a_update_cb.eflash_block_index] % FLASH_PAGE_SIZE != 0)
 		{
 			/* 从W25QX中搬运剩余数据 */
-			w25q64.read_data(	&w25q64, 
-								flash_a_update_cb.eflash_block_index * E_FLASH_BLOCK_SIZE + i * FLASH_PAGE_SIZE, 
-								flash_a_update_cb.update_buf, 
-								iap_info.program_byte_num[flash_a_update_cb.eflash_block_index] % FLASH_PAGE_SIZE);
+			w25q64.read_data(&w25q64, 
+							flash_a_update_cb.eflash_block_index * E_FLASH_BLOCK_SIZE + i * FLASH_PAGE_SIZE, 
+							flash_a_update_cb.update_buf, 
+							iap_info.program_byte_num[flash_a_update_cb.eflash_block_index] % FLASH_PAGE_SIZE);
 
 			/* 将剩余数据写入内部Flash */
-			fmc.write(	&fmc, 
-							FLASH_A_START_ADDR + i * FLASH_PAGE_SIZE, 
-							(uint32_t *)flash_a_update_cb.update_buf, 
-							iap_info.program_byte_num[flash_a_update_cb.eflash_block_index] % FLASH_PAGE_SIZE);
+			flash.write(&flash, 
+						FLASH_A_START_ADDR + i * FLASH_PAGE_SIZE, 
+						(uint32_t *)flash_a_update_cb.update_buf, 
+						iap_info.program_byte_num[flash_a_update_cb.eflash_block_index] % FLASH_PAGE_SIZE);
 		}
 		
 		/* 系统复位 */
@@ -222,14 +222,14 @@ static void __handle_command_line_input(uint8_t *data, uint16_t len)
 	{
 		/* 擦除Flash A区 */
 		BOOT_DEBUG("\r\nErase Flash A.\r\n");
-		fmc.page_erase(&fmc, FLASH_A_START_PAGE, FLASH_A_PAGE_NUM);			// 擦除A区程序
+		flash.page_erase(&flash, FLASH_A_START_PAGE, FLASH_A_PAGE_NUM);			// 擦除A区程序
 		BOOT_DEBUG("Successfully erased Flash A!\r\n");
 	}
 	else if (len == 1 && data[0] == '2')
 	{
 		/* 串口IAP下载程序到Flash A区 */
 		BOOT_DEBUG("\r\nIAP download the program to Flash A, please use bin format file.\r\n");
-		fmc.page_erase(&fmc, FLASH_A_START_PAGE, FLASH_A_PAGE_NUM);			// 擦除A区程序
+		flash.page_erase(&flash, FLASH_A_START_PAGE, FLASH_A_PAGE_NUM);			// 擦除A区程序
 		g_bootloader_status |= (IAP_XMODEM_SEND_C_FLAG | IAP_XMODEM_SEND_DATA_FLAG);	// 置位IAP事件
 		flash_a_update_cb.xmodem_timeout = 0;
 		flash_a_update_cb.xmodem_packet_cnt = 0;
@@ -290,19 +290,19 @@ static void __handle_xmodem_send_data(uint8_t *data, uint16_t len)
 					/* 向外部Flash写入：每页256字节，所以1KB的数据需要分4次写入 */
 					for (i = 0; i < FLASH_PAGE_SIZE / E_FLASH_PAGE_SIZE; i++)
 					{
-						w25q64.page_write(	&w25q64, 
-											flash_a_update_cb.eflash_block_index * E_FLASH_BLOCK_SIZE + (flash_a_update_cb.xmodem_packet_cnt / 8 - 1) * FLASH_PAGE_SIZE + i * E_FLASH_PAGE_SIZE, 
-											&flash_a_update_cb.update_buf[i * E_FLASH_PAGE_SIZE], 
-											E_FLASH_PAGE_SIZE);
+						w25q64.page_write(&w25q64, 
+										flash_a_update_cb.eflash_block_index * E_FLASH_BLOCK_SIZE + (flash_a_update_cb.xmodem_packet_cnt / 8 - 1) * FLASH_PAGE_SIZE + i * E_FLASH_PAGE_SIZE, 
+										&flash_a_update_cb.update_buf[i * E_FLASH_PAGE_SIZE], 
+										E_FLASH_PAGE_SIZE);
 					}
 				}
 				else
 				{
 					/* 向内部Flash写入：凑满n个包，能够写满一页内部Flash，写入 */
-					fmc.write(	&fmc, 
-									FLASH_A_START_ADDR + ((flash_a_update_cb.xmodem_packet_cnt / (FLASH_PAGE_SIZE / XMODEM_PACKET_DATA_LEN)) - 1) * FLASH_PAGE_SIZE, 
-									(uint32_t *)flash_a_update_cb.update_buf, 
-									FLASH_PAGE_SIZE);
+					flash.write(&flash, 
+								FLASH_A_START_ADDR + ((flash_a_update_cb.xmodem_packet_cnt / (FLASH_PAGE_SIZE / XMODEM_PACKET_DATA_LEN)) - 1) * FLASH_PAGE_SIZE, 
+								(uint32_t *)flash_a_update_cb.update_buf, 
+								FLASH_PAGE_SIZE);
 				}
 			}
 			BOOT_DEBUG("\x06");	// CRC校验错误发送ACK
@@ -326,16 +326,16 @@ static void __handle_xmodem_send_data(uint8_t *data, uint16_t len)
 				/* 写入外部Flash，每页256字节，循环4次会多写但是不影响 */
 				for (i = 0; i < FLASH_PAGE_SIZE / E_FLASH_PAGE_SIZE; i++)
 				{
-					w25q64.page_write(	&w25q64, 
-										flash_a_update_cb.eflash_block_index * E_FLASH_BLOCK_SIZE + (flash_a_update_cb.xmodem_packet_cnt / 8) * FLASH_PAGE_SIZE + i * E_FLASH_PAGE_SIZE, 
-										&flash_a_update_cb.update_buf[i * E_FLASH_PAGE_SIZE], 
-										E_FLASH_PAGE_SIZE);
+					w25q64.page_write(&w25q64, 
+									flash_a_update_cb.eflash_block_index * E_FLASH_BLOCK_SIZE + (flash_a_update_cb.xmodem_packet_cnt / 8) * FLASH_PAGE_SIZE + i * E_FLASH_PAGE_SIZE, 
+									&flash_a_update_cb.update_buf[i * E_FLASH_PAGE_SIZE], 
+									E_FLASH_PAGE_SIZE);
 				}
 			}
 			else
 			{
 				/* 写入内部Flash */
-				fmc.write(	&fmc, 
+				flash.write(&flash, 
 							FLASH_A_START_ADDR + (flash_a_update_cb.xmodem_packet_cnt / (FLASH_PAGE_SIZE / XMODEM_PACKET_DATA_LEN)) * FLASH_PAGE_SIZE, 
 							(uint32_t *)flash_a_update_cb.update_buf, 
 							(flash_a_update_cb.xmodem_packet_cnt % (FLASH_PAGE_SIZE / XMODEM_PACKET_DATA_LEN)) * XMODEM_PACKET_DATA_LEN);
@@ -483,12 +483,7 @@ static void __bootloader_clear(void)
 {
 	usart_deinit(USART0);
 	gpio_deinit(GPIOA);
-	gpio_deinit(at24c02.config.scl_port);
-	gpio_deinit(at24c02.config.sda_port);
-	gpio_deinit(w25q64.config.sck_port);
-	gpio_deinit(w25q64.config.miso_port);
-	gpio_deinit(w25q64.config.mosi_port);
-	gpio_deinit(w25q64.config.cs_port);
+	gpio_deinit(GPIOB);
 }
 
 /******************************************************************************

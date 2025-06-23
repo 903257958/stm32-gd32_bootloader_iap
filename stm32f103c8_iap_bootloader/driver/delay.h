@@ -1,8 +1,10 @@
-#ifndef __DELAY_H
-#define __DELAY_H
+#ifndef DELAY_H
+#define DELAY_H
 
 #include <stdint.h>
 #include <stdbool.h>
+
+#ifdef USE_STDPERIPH_DRIVER
 
 #if defined (STM32F10X_LD) || defined (STM32F10X_LD_VL) || defined (STM32F10X_MD) || defined (STM32F10X_MD_VL) || \
     defined (STM32F10X_HD) || defined (STM32F10X_HD_VL) || defined (STM32F10X_XL) || defined (STM32F10X_CL) 
@@ -20,16 +22,17 @@
     #error delay.h: No processor defined!
 #endif
 
+#endif
+
 #ifndef USE_FREERTOS
     #define USE_FREERTOS 0
 #endif
 
-#if !USE_FREERTOS
-void delay_init(uint16_t sysclk_mhz);
-#else
+#if USE_FREERTOS
 #include "timer.h"
-void delay_init(TimerDev_t *timer);
+void delay_init(timer_dev_t *timer);
 #endif
+
 void delay_us(uint32_t us);
 void delay_ms(uint32_t ms);
 void delay_s(uint32_t s);

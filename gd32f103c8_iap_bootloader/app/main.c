@@ -1,9 +1,15 @@
 #include "main.h"
 
 /* 硬件设备定义 */
-EEPROMDev_t at24c02 = {.config = {GPIOB, GPIO_PIN_6, GPIOB, GPIO_PIN_7}};
-W25QXDev_t w25q64 = {.config = {SPI0, GPIOA, GPIO_PIN_5, GPIOA, GPIO_PIN_6, GPIOA, GPIO_PIN_7, GPIOA, GPIO_PIN_4}};
-FMCDev_t fmc;
+eeprom_dev_t at24c02 = {
+    .config = {GPIOB, GPIO_PIN_6, GPIOB, GPIO_PIN_7}
+};
+
+w25qx_dev_t w25q64 = {
+    .config = {SPI0, GPIOA, GPIO_PIN_5, GPIOA, GPIO_PIN_6, GPIOA, GPIO_PIN_7, GPIOA, GPIO_PIN_4}
+};
+
+flash_dev_t flash;
 
 int main(void)
 {
@@ -11,11 +17,10 @@ int main(void)
 	nvic_priority_group_set(NVIC_PRIGROUP_PRE2_SUB2);
 
 	/* 硬件设备初始化 */
-    delay_init(108);
 	uart0_init(921600);
     eeprom_init(&at24c02);
     w25qx_init(&w25q64);
-	fmc_init(&fmc);
+	flash_init(&flash);
 
 	uart0_printf("\r\n");
 

@@ -13,12 +13,12 @@
 #include "uart.h"
 #include "eeprom.h"
 #include "w25qx.h"
-#include "fmc.h"
+#include "flash.h"
 
 /* 硬件设备 */
-extern EEPROMDev_t at24c02;
-extern W25QXDev_t w25q64;
-extern FMCDev_t fmc;
+extern eeprom_dev_t at24c02;
+extern w25qx_dev_t w25q64;
+extern flash_dev_t flash;
 
 /* 打印调试信息 */
 #define BOOT_DEBUG(fmt, ...) uart0_printf(fmt, ##__VA_ARGS__)
@@ -53,10 +53,10 @@ extern FMCDev_t fmc;
 /* IAP信息结构体 */
 typedef struct {
     uint32_t program_byte_num[12];  // 更新的程序字节数
-}IAPInfo_t;
-extern IAPInfo_t iap_info;
+}iap_info_t;
+extern iap_info_t iap_info;
 
-#define IAP_INFO_SIZE   sizeof(IAPInfo_t)   // IAP信息结构体大小
+#define IAP_INFO_SIZE   sizeof(iap_info_t)   // IAP信息结构体大小
 
 /* Flash A区更新控制块结构体 */
 typedef struct {
@@ -65,8 +65,8 @@ typedef struct {
     uint32_t xmodem_timeout;                // Xmodem协议延时
     uint32_t xmodem_packet_cnt;             // Xmodem协议数据包接收计数，1个包128字节，8个包为1024字节，写满一页内部Flash
     uint32_t xmodem_crc_val;                // Xmodem协议CRC校验值
-}FlashAUpdateControlBlock_t;
-extern FlashAUpdateControlBlock_t flash_a_update_cb;
+}app_update_cb_t;
+extern app_update_cb_t flash_a_update_cb;
 
 /* 函数指针，用于跳转到A区应用程序入口 */
 typedef void (*p_load_flash_a)(void);

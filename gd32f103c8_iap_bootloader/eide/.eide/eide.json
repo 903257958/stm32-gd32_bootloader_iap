@@ -43,28 +43,22 @@
             "path": "../driver/eeprom.h"
           },
           {
-            "path": "../driver/esp8266.c"
+            "path": "../driver/flash.c"
           },
           {
-            "path": "../driver/esp8266.h"
+            "path": "../driver/flash.h"
           },
           {
-            "path": "../driver/fmc.c"
+            "path": "../driver/i2c_soft.c"
           },
           {
-            "path": "../driver/fmc.h"
+            "path": "../driver/i2c_soft.h"
           },
           {
-            "path": "../driver/i2c.c"
+            "path": "../driver/spi_hard.c"
           },
           {
-            "path": "../driver/i2c.h"
-          },
-          {
-            "path": "../driver/spi.c"
-          },
-          {
-            "path": "../driver/spi.h"
+            "path": "../driver/spi_hard.h"
           },
           {
             "path": "../driver/uart.c"

@@ -1,5 +1,5 @@
-#ifndef __EEPROM_H
-#define __EEPROM_H
+#ifndef EEPROM_DRV_H
+#define EEPROM_DRV_H
 
 #include <stdint.h>
 #include <stdio.h>
@@ -8,23 +8,31 @@
 #include <stdlib.h>
 #include <string.h>
 #include <math.h>
-#include "i2c.h"
+
+#ifdef USE_STDPERIPH_DRIVER
 
 #if defined(STM32F10X_HD) || defined(STM32F10X_MD)
     #include "stm32f10x.h"
-    typedef GPIO_TypeDef*	EEPROMGPIOPort_t;
+    typedef GPIO_TypeDef*	gpio_port_t;
+    typedef uint32_t		gpio_pin_t;
 	
 #elif defined(STM32F40_41xxx)
 	#include "stm32f4xx.h"
-	typedef GPIO_TypeDef*	EEPROMGPIOPort_t;
+	typedef GPIO_TypeDef*	gpio_port_t;
+    typedef uint32_t		gpio_pin_t;
     
 #elif defined (GD32F10X_MD) || defined (GD32F10X_HD)
     #include "gd32f10x.h"
-    typedef uint32_t    EEPROMGPIOPort_t;
+    typedef uint32_t    gpio_port_t;
+    typedef uint32_t	gpio_pin_t;
 	
 #else
     #error eeprom.h: No processor defined!
 #endif
+
+#endif
+
+#include "i2c_soft.h"
 
 /* EEPROM的I2C从机地址 */
 #define EEPROM_ADDRESS	0x50	// AT24C02
@@ -34,22 +42,22 @@
 // #define EEPROM_PAGE_SIZE 16		// M24C02
 
 typedef struct {
-	EEPROMGPIOPort_t scl_port;		// SCL端口
-	uint32_t scl_pin;				// SCL引脚
-	EEPROMGPIOPort_t sda_port;		// SDA端口
-	uint32_t sda_pin;				// SDA引脚
-}EEPROMConfig_t;
+	gpio_port_t scl_port;	// SCL端口
+	gpio_pin_t scl_pin;		// SCL引脚
+	gpio_port_t sda_port;	// SDA端口
+	gpio_pin_t sda_pin;		// SDA引脚
+} eeprom_config_t;
 
-typedef struct EEPROMDev {
-	EEPROMConfig_t config;
+typedef struct eeprom_dev {
+	eeprom_config_t config;
 	bool init_flag;								// 初始化标志
 	void *priv_data;							// 私有数据指针
-	int8_t (*write_byte)(struct EEPROMDev *dev, uint8_t addr, uint8_t data);
-	int8_t (*write_page)(struct EEPROMDev *dev, uint8_t addr, uint8_t *data);
-	int8_t (*read_data)(struct EEPROMDev *dev, uint8_t addr, uint16_t num, uint8_t *data);
-	int8_t (*deinit)(struct EEPROMDev *dev);
-}EEPROMDev_t;
+	int8_t (*write_byte)(struct eeprom_dev *dev, uint8_t addr, uint8_t data);
+	int8_t (*write_page)(struct eeprom_dev *dev, uint8_t addr, uint8_t *data);
+	int8_t (*read_data)(struct eeprom_dev *dev, uint8_t addr, uint16_t num, uint8_t *data);
+	int8_t (*deinit)(struct eeprom_dev *dev);
+} eeprom_dev_t;
 
-int8_t eeprom_init(EEPROMDev_t *dev);
+int8_t eeprom_init(eeprom_dev_t *dev);
 
 #endif

@@ -49,16 +49,16 @@
             "path": "../driver/flash.h"
           },
           {
-            "path": "../driver/i2c.c"
+            "path": "../driver/i2c_soft.c"
           },
           {
-            "path": "../driver/i2c.h"
+            "path": "../driver/i2c_soft.h"
           },
           {
-            "path": "../driver/spi.c"
+            "path": "../driver/spi_hard.c"
           },
           {
-            "path": "../driver/spi.h"
+            "path": "../driver/spi_hard.h"
           },
           {
             "path": "../driver/uart.c"
@@ -88,6 +88,9 @@
             "path": "../firmware/cmsis/device/startup_stm32f10x_md.s"
           },
           {
+            "path": "../firmware/cmsis/device/stm32f10x.h"
+          },
+          {
             "path": "../firmware/cmsis/device/stm32f10x_conf.h"
           },
           {
@@ -95,9 +98,6 @@
           },
           {
             "path": "../firmware/cmsis/device/stm32f10x_it.h"
-          },
-          {
-            "path": "../firmware/cmsis/device/stm32f10x.h"
           },
           {
             "path": "../firmware/cmsis/device/system_stm32f10x.c"
@@ -183,7 +183,7 @@
   "deviceName": null,
   "packDir": null,
   "miscInfo": {
-    "uid": "f0d991e643dda7125867ce609531f363"
+    "uid": "cd98a63f21657840c987e132b17e5508"
   },
   "targets": {
     "Target 1": {

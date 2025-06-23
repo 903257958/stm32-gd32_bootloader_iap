@@ -16,13 +16,13 @@
 #include "flash.h"
 
 /* 硬件设备 */
-extern UARTDev_t debug;
-extern EEPROMDev_t at24c02;
-extern W25QXDev_t w25q128;
-extern FlashDev_t flash;
+extern uart_dev_t uart1;
+extern eeprom_dev_t at24c02;
+extern w25qx_dev_t w25q128;
+extern flash_dev_t flash;
 
 /* 串口打印调试信息 */
-#define BOOT_DEBUG(fmt, ...) debug.printf(fmt, ##__VA_ARGS__)
+#define BOOT_DEBUG(fmt, ...) uart1.printf(fmt, ##__VA_ARGS__)
 
 #if defined(STM32F10X_HD) || defined(STM32F10X_MD) || defined (GD32F10X_MD) || defined (GD32F10X_HD)
 
@@ -77,10 +77,10 @@ extern FlashDev_t flash;
 /* IAP信息结构体 */
 typedef struct {
     uint32_t app_size[12];  // 更新的APP字节数
-}IAPInfo_t;
-extern IAPInfo_t iap_info;
+} iap_info_t;
+extern iap_info_t iap_info;
 
-#define IAP_INFO_SIZE   sizeof(IAPInfo_t)   // IAP信息结构体大小
+#define IAP_INFO_SIZE   sizeof(iap_info_t)   // IAP信息结构体大小
 
 /* APP更新控制块结构体 */
 #define SINGLE_UPDATE_SIZE  1024
@@ -91,8 +91,8 @@ typedef struct {
     uint32_t xmodem_timeout;                // Xmodem协议延时
     uint32_t xmodem_packet_cnt;             // Xmodem协议数据包接收计数，1个包128字节，8个包为1024字节，写满一页内部Flash
     uint32_t xmodem_crc_val;                // Xmodem协议CRC校验值
-}APPUpdateControlBlock_t;
-extern APPUpdateControlBlock_t app_update_cb;
+} app_update_cb_t;
+extern app_update_cb_t app_update_cb;
 
 /* 函数指针，用于跳转到A区应用程序入口 */
 typedef void (*p_load_app)(void);

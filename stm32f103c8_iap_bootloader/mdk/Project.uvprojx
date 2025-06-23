@@ -430,14 +430,14 @@
               <FilePath>..\driver\uart.c</FilePath>
             </File>
             <File>
-              <FileName>i2c.h</FileName>
+              <FileName>i2c_soft.h</FileName>
               <FileType>5</FileType>
-              <FilePath>..\driver\i2c.h</FilePath>
+              <FilePath>..\driver\i2c_soft.h</FilePath>
             </File>
             <File>
-              <FileName>i2c.c</FileName>
+              <FileName>i2c_soft.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\driver\i2c.c</FilePath>
+              <FilePath>..\driver\i2c_soft.c</FilePath>
             </File>
             <File>
               <FileName>eeprom.h</FileName>
@@ -450,14 +450,14 @@
               <FilePath>..\driver\eeprom.c</FilePath>
             </File>
             <File>
-              <FileName>spi.h</FileName>
+              <FileName>spi_hard.h</FileName>
               <FileType>5</FileType>
-              <FilePath>..\driver\spi.h</FilePath>
+              <FilePath>..\driver\spi_hard.h</FilePath>
             </File>
             <File>
-              <FileName>spi.c</FileName>
+              <FileName>spi_hard.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\driver\spi.c</FilePath>
+              <FilePath>..\driver\spi_hard.c</FilePath>
             </File>
             <File>
               <FileName>w25qx.h</FileName>

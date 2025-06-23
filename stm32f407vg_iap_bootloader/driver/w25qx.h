@@ -1,35 +1,41 @@
-#ifndef __W25QX_H
-#define __W25QX_H
+#ifndef W25QX_DRV_H
+#define W25QX_DRV_H
 
 #include <stdint.h>
 #include <stdio.h>
 #include <stdbool.h>
 #include <stdlib.h>
-#include "spi.h"
+
+#ifdef USE_STDPERIPH_DRIVER
 
 #if defined(STM32F10X_HD) || defined(STM32F10X_MD)
     #include "stm32f10x.h"
-    typedef GPIO_TypeDef*	W25QXGPIOPort_t;
+	typedef SPI_TypeDef*	spi_periph_t;
+    typedef GPIO_TypeDef*	gpio_port_t;
+    typedef uint32_t		gpio_pin_t;
 	
 #elif defined(STM32F40_41xxx) || defined(STM32F411xE) || defined(STM32F429_439xx)
 	#include "stm32f4xx.h"
-	typedef GPIO_TypeDef*	W25QXGPIOPort_t;
+	typedef SPI_TypeDef*	spi_periph_t;
+	typedef GPIO_TypeDef*	gpio_port_t;
+    typedef uint32_t		gpio_pin_t;
     
 #elif defined (GD32F10X_MD) || defined (GD32F10X_HD)
     #include "gd32f10x.h"
-    typedef uint32_t	W25QXGPIOPort_t;
+	typedef uint32_t	spi_periph_t;
+    typedef uint32_t	gpio_port_t;
+    typedef uint32_t	gpio_pin_t;
 	
 #else
     #error w25qx.h: No processor defined!
 #endif
 
-#define W25QX_PAGE_SIZE				256
-#define W25QX_PER_WRITE_PAGE_SIZE	256
+#endif
 
-// #define  SPI_FLASH_ID		0x3015	//W25QX16
-// #define  SPI_FLASH_ID		0x4015	//W25Q16
-#define  SPI_FLASH_ID		0X4018	//W25Q128
-// #define  SPI_FLASH_ID		0X4017	//W25Q64
+#include "spi_hard.h"
+
+#define W25QX_PAGE_SIZE							256
+#define W25QX_PER_WRITE_PAGE_SIZE				256
 
 #define W25QX_WRITE_ENABLE						0x06
 #define W25QX_WRITE_DISABLE						0x04
@@ -61,31 +67,31 @@
 #define W25QX_DUMMY_BYTE						0xFF
 
 typedef struct {
-	SPIPER_t spix;					// SPI外设
-	W25QXGPIOPort_t sck_port;		// SCK端口
-	uint32_t sck_pin;				// SCK引脚
-	W25QXGPIOPort_t miso_port;		// MISO端口
-	uint32_t miso_pin;				// MISO引脚
-	W25QXGPIOPort_t mosi_port;		// MOSI端口
-	uint32_t mosi_pin;				// MOSI引脚
-	W25QXGPIOPort_t cs_port;		// CS端口
-	uint32_t cs_pin;				// CS引脚
-}W25QXConfig_t;
+	spi_periph_t spix;		// SPI外设
+	gpio_port_t sck_port;	// SCK端口
+	gpio_pin_t sck_pin;		// SCK引脚
+	gpio_port_t miso_port;	// MISO端口
+	gpio_pin_t miso_pin;	// MISO引脚
+	gpio_port_t mosi_port;	// MOSI端口
+	gpio_pin_t mosi_pin;	// MOSI引脚
+	gpio_port_t cs_port;	// CS端口
+	gpio_pin_t cs_pin;		// CS引脚
+} w25qx_config_t;
 
-typedef struct W25QXDev {
-	W25QXConfig_t config;
+typedef struct w25qx_dev {
+	w25qx_config_t config;
 	bool init_flag;																					// 初始化标志
 	void *priv_data;																				// 私有数据指针
-	void (*read_id)(struct W25QXDev *dev, uint8_t *mid, uint16_t *did);								// W25QX读取ID号
-	void (*page_write)(struct W25QXDev *dev, uint32_t addr, uint8_t *data_array, uint16_t cnt);	// W25QX页编程
-	void (*write_data)(struct W25QXDev *dev, uint32_t addr, uint8_t *data_array, uint32_t cnt);		// W25QX写入不定量数据
-	void (*sector_erase_4kb)(struct W25QXDev *dev, uint32_t addr);									// W25QX扇区擦除（4KB）
-	void (*block_erase_64kb)(struct W25QXDev *dev, uint16_t index);									// W25QX页擦除（64KB）
-	void (*read_data)(struct W25QXDev *dev, uint32_t addr, uint8_t *data_array, uint32_t cnt);		// W25QX读取数据
-	void (*wakeup)(struct W25QXDev *dev);															// 唤醒W25QX
-	int (*deinit)(struct W25QXDev *dev);															// 去初始化
-}W25QXDev_t;
+	void (*read_id)(struct w25qx_dev *dev, uint8_t *mid, uint16_t *did);							// 读取ID号
+	void (*page_write)(struct w25qx_dev *dev, uint32_t addr, uint8_t *data_array, uint16_t cnt);	// 页编程
+	void (*write_data)(struct w25qx_dev *dev, uint32_t addr, uint8_t *data_array, uint32_t cnt);	// 写入不定量数据
+	void (*sector_erase_4kb)(struct w25qx_dev *dev, uint32_t addr);									// 扇区擦除（4KB）
+	void (*block_erase_64kb)(struct w25qx_dev *dev, uint16_t index);								// 页擦除（64KB）
+	void (*read_data)(struct w25qx_dev *dev, uint32_t addr, uint8_t *data_array, uint32_t cnt);		// 读取数据
+	void (*wakeup)(struct w25qx_dev *dev);															// 唤醒
+	int (*deinit)(struct w25qx_dev *dev);															// 去初始化
+} w25qx_dev_t;
 
-int w25qx_init(W25QXDev_t *dev);
+int w25qx_init(w25qx_dev_t *dev);
 
 #endif
