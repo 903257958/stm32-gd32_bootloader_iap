@@ -1,0 +1,492 @@
+{
+  "name": "Project",
+  "type": "ARM",
+  "dependenceList": [],
+  "srcDirs": [],
+  "virtualFolder": {
+    "name": "<virtual_root>",
+    "files": [],
+    "folders": [
+      {
+        "name": "app",
+        "files": [
+          {
+            "path": "../../app/main.c"
+          }
+        ],
+        "folders": [
+          {
+            "name": "log",
+            "files": [
+              {
+                "path": "../../app/log/log.c"
+              },
+              {
+                "path": "../../app/log/log.h"
+              }
+            ],
+            "folders": []
+          },
+          {
+            "name": "ota",
+            "files": [
+              {
+                "path": "../../app/ota/ota_comm.c"
+              },
+              {
+                "path": "../../app/ota/ota_comm.h"
+              },
+              {
+                "path": "../../app/ota/ota_config.h"
+              },
+              {
+                "path": "../../app/ota/ota_core.c"
+              },
+              {
+                "path": "../../app/ota/ota_core.h"
+              },
+              {
+                "path": "../../app/ota/ota_event.c"
+              },
+              {
+                "path": "../../app/ota/ota_event.h"
+              },
+              {
+                "path": "../../app/ota/ota_mqtt.c"
+              },
+              {
+                "path": "../../app/ota/ota_mqtt.h"
+              },
+              {
+                "path": "../../app/ota/boot_store.c"
+              },
+              {
+                "path": "../../app/ota/boot_store.h"
+              }
+            ],
+            "folders": []
+          }
+        ]
+      },
+      {
+        "name": "driver",
+        "files": [
+          {
+            "path": "../../driver/drv_delay.c"
+          },
+          {
+            "path": "../../driver/drv_delay.h"
+          },
+          {
+            "path": "../../driver/drv_esp8266.c"
+          },
+          {
+            "path": "../../driver/drv_esp8266.h"
+          },
+          {
+            "path": "../../driver/drv_uart.c"
+          },
+          {
+            "path": "../../driver/drv_uart.h"
+          },
+          {
+            "path": "../../driver/drv_eeprom.c"
+          },
+          {
+            "path": "../../driver/drv_eeprom.h"
+          },
+          {
+            "path": "../../driver/drv_i2c_soft.c"
+          },
+          {
+            "path": "../../driver/drv_i2c_soft.h"
+          },
+          {
+            "path": "../../driver/drv_w25qx.c"
+          },
+          {
+            "path": "../../driver/drv_w25qx.h"
+          },
+          {
+            "path": "../../driver/drv_spi.c"
+          },
+          {
+            "path": "../../driver/drv_spi.h"
+          }
+        ],
+        "folders": []
+      },
+      {
+        "name": "bsp",
+        "files": [
+          {
+            "path": "../../bsp/bsp_common.c"
+          },
+          {
+            "path": "../../bsp/bsp_common.h"
+          },
+          {
+            "path": "../../bsp/bsp_console.c"
+          },
+          {
+            "path": "../../bsp/bsp_console.h"
+          },
+          {
+            "path": "../../bsp/bsp_delay.c"
+          },
+          {
+            "path": "../../bsp/bsp_delay.h"
+          },
+          {
+            "path": "../../bsp/bsp_net.c"
+          },
+          {
+            "path": "../../bsp/bsp_net.h"
+          },
+          {
+            "path": "../../bsp/bsp_eeprom.c"
+          },
+          {
+            "path": "../../bsp/bsp_eeprom.h"
+          },
+          {
+            "path": "../../bsp/bsp_ext_flash.c"
+          },
+          {
+            "path": "../../bsp/bsp_ext_flash.h"
+          },
+          {
+            "path": "../../bsp/bsp_i2c_bus.c"
+          },
+          {
+            "path": "../../bsp/bsp_i2c_bus.h"
+          }
+        ],
+        "folders": []
+      },
+      {
+        "name": "core",
+        "files": [],
+        "folders": [
+          {
+            "name": "cmsis",
+            "files": [
+              {
+                "path": "../../core/cmsis/core/core_cm3.c"
+              },
+              {
+                "path": "../../core/cmsis/core/core_cm3.h"
+              },
+              {
+                "path": "../../core/cmsis/device/startup_stm32f10x_md.s"
+              },
+              {
+                "path": "../../core/cmsis/device/stm32f10x.h"
+              },
+              {
+                "path": "../../core/cmsis/device/stm32f10x_conf.h"
+              },
+              {
+                "path": "../../core/cmsis/device/stm32f10x_it.c"
+              },
+              {
+                "path": "../../core/cmsis/device/stm32f10x_it.h"
+              },
+              {
+                "path": "../../core/cmsis/device/system_stm32f10x.c"
+              },
+              {
+                "path": "../../core/cmsis/device/system_stm32f10x.h"
+              }
+            ],
+            "folders": []
+          },
+          {
+            "name": "driver",
+            "files": [
+              {
+                "path": "../../core/driver/src/misc.c"
+              },
+              {
+                "path": "../../core/driver/src/stm32f10x_adc.c"
+              },
+              {
+                "path": "../../core/driver/src/stm32f10x_bkp.c"
+              },
+              {
+                "path": "../../core/driver/src/stm32f10x_can.c"
+              },
+              {
+                "path": "../../core/driver/src/stm32f10x_cec.c"
+              },
+              {
+                "path": "../../core/driver/src/stm32f10x_crc.c"
+              },
+              {
+                "path": "../../core/driver/src/stm32f10x_dac.c"
+              },
+              {
+                "path": "../../core/driver/src/stm32f10x_dbgmcu.c"
+              },
+              {
+                "path": "../../core/driver/src/stm32f10x_dma.c"
+              },
+              {
+                "path": "../../core/driver/src/stm32f10x_exti.c"
+              },
+              {
+                "path": "../../core/driver/src/stm32f10x_flash.c"
+              },
+              {
+                "path": "../../core/driver/src/stm32f10x_fsmc.c"
+              },
+              {
+                "path": "../../core/driver/src/stm32f10x_gpio.c"
+              },
+              {
+                "path": "../../core/driver/src/stm32f10x_i2c.c"
+              },
+              {
+                "path": "../../core/driver/src/stm32f10x_iwdg.c"
+              },
+              {
+                "path": "../../core/driver/src/stm32f10x_pwr.c"
+              },
+              {
+                "path": "../../core/driver/src/stm32f10x_rcc.c"
+              },
+              {
+                "path": "../../core/driver/src/stm32f10x_rtc.c"
+              },
+              {
+                "path": "../../core/driver/src/stm32f10x_sdio.c"
+              },
+              {
+                "path": "../../core/driver/src/stm32f10x_spi.c"
+              },
+              {
+                "path": "../../core/driver/src/stm32f10x_tim.c"
+              },
+              {
+                "path": "../../core/driver/src/stm32f10x_usart.c"
+              },
+              {
+                "path": "../../core/driver/src/stm32f10x_wwdg.c"
+              }
+            ],
+            "folders": []
+          }
+        ]
+      }
+    ]
+  },
+  "outDir": "build",
+  "deviceName": null,
+  "packDir": null,
+  "miscInfo": {
+    "uid": "a51e53730cb65a55ea3f3d84989ebefe"
+  },
+  "targets": {
+    "Target 1": {
+      "excludeList": [],
+      "toolchain": "AC5",
+      "compileConfig": {
+        "cpuType": "Cortex-M3",
+        "archExtensions": "",
+        "floatingPointHardware": "none",
+        "scatterFilePath": "",
+        "useCustomScatterFile": false,
+        "storageLayout": {
+          "RAM": [
+            {
+              "tag": "RAM",
+              "id": 1,
+              "mem": {
+                "startAddr": "0x0",
+                "size": "0x0"
+              },
+              "isChecked": false,
+              "noInit": false
+            },
+            {
+              "tag": "RAM",
+              "id": 2,
+              "mem": {
+                "startAddr": "0x0",
+                "size": "0x0"
+              },
+              "isChecked": false,
+              "noInit": false
+            },
+            {
+              "tag": "RAM",
+              "id": 3,
+              "mem": {
+                "startAddr": "0x0",
+                "size": "0x0"
+              },
+              "isChecked": false,
+              "noInit": false
+            },
+            {
+              "tag": "IRAM",
+              "id": 1,
+              "mem": {
+                "startAddr": "0x20000000",
+                "size": "0x5000"
+              },
+              "isChecked": true,
+              "noInit": false
+            },
+            {
+              "tag": "IRAM",
+              "id": 2,
+              "mem": {
+                "startAddr": "0x0",
+                "size": "0x0"
+              },
+              "isChecked": false,
+              "noInit": false
+            }
+          ],
+          "ROM": [
+            {
+              "tag": "ROM",
+              "id": 1,
+              "mem": {
+                "startAddr": "0x0",
+                "size": "0x0"
+              },
+              "isChecked": false,
+              "isStartup": false
+            },
+            {
+              "tag": "ROM",
+              "id": 2,
+              "mem": {
+                "startAddr": "0x0",
+                "size": "0x0"
+              },
+              "isChecked": false,
+              "isStartup": false
+            },
+            {
+              "tag": "ROM",
+              "id": 3,
+              "mem": {
+                "startAddr": "0x0",
+                "size": "0x0"
+              },
+              "isChecked": false,
+              "isStartup": false
+            },
+            {
+              "tag": "IROM",
+              "id": 1,
+              "mem": {
+                "startAddr": "0x8006000",
+                "size": "0x10000"
+              },
+              "isChecked": true,
+              "isStartup": true
+            },
+            {
+              "tag": "IROM",
+              "id": 2,
+              "mem": {
+                "startAddr": "0x0",
+                "size": "0x0"
+              },
+              "isChecked": false,
+              "isStartup": false
+            }
+          ]
+        },
+        "options": "null"
+      },
+      "uploader": "OpenOCD",
+      "uploadConfig": {
+        "bin": "",
+        "target": "stm32f1x",
+        "interface": "stlink",
+        "baseAddr": "0x08000000"
+      },
+      "uploadConfigMap": {
+        "JLink": {
+          "bin": "",
+          "baseAddr": "",
+          "cpuInfo": {
+            "vendor": "null",
+            "cpuName": "null"
+          },
+          "proType": 1,
+          "speed": 8000,
+          "otherCmds": ""
+        }
+      },
+      "custom_dep": {
+        "name": "default",
+        "incList": [
+          "../../app",
+          "../../app/log",
+          "../../app/ota",
+          "../../driver",
+          "../../bsp",
+          "../../core/cmsis/core",
+          "../../core/cmsis/device",
+          "../../core/driver/inc",
+          ".cmsis/include",
+          "../mdk/RTE/_Target 1"
+        ],
+        "libList": [],
+        "defineList": [
+          "STM32F10X_MD",
+          "USE_STDPERIPH_DRIVER"
+        ]
+      },
+      "builderOptions": {
+        "AC5": {
+          "version": 4,
+          "beforeBuildTasks": [],
+          "afterBuildTasks": [
+            {
+              "name": "[Copy linker output for Keil User Commands]",
+              "command": "cd .\\..\\mdk && mkdir ${KEIL_OUTPUT_DIR} & copy \"${OutDir}\\${ProjectName}.axf\" \"${KEIL_OUTPUT_DIR}\\${ProjectName}.axf\"",
+              "disable": false,
+              "abortAfterFailed": true
+            },
+            {
+              "name": "D:\\Keil5\\Keil_v5\\ARM\\ARMCC\\bin\\fromelf.exe --bin -o  .\\Objects\\Project.bin  .\\Objects\\Project.axf",
+              "command": "cd .\\..\\mdk && D:\\Keil5\\Keil_v5\\ARM\\ARMCC\\bin\\fromelf.exe --bin -o  .\\Objects\\Project.bin  .\\Objects\\Project.axf",
+              "disable": false,
+              "abortAfterFailed": true
+            }
+          ],
+          "global": {
+            "use-microLIB": true,
+            "output-debug-info": "enable"
+          },
+          "c/cpp-compiler": {
+            "optimization": "level-0",
+            "one-elf-section-per-function": true,
+            "c99-mode": true,
+            "C_FLAGS": "--no-multibyte-chars",
+            "CXX_FLAGS": "--no-multibyte-chars",
+            "warnings": "all-warnings"
+          },
+          "asm-compiler": {},
+          "linker": {
+            "$outputTaskExcludes": [
+              ".bin"
+            ],
+            "output-format": "elf",
+            "xo-base": "",
+            "ro-base": "0x08000000",
+            "rw-base": "0x20000000"
+          }
+        }
+      }
+    }
+  },
+  "version": "3.6"
+}
